@@ -6,10 +6,18 @@ from collections import Counter
 
 from nltk.corpus import brown
 
+import wikipedia
+
+# Fetch a Wikipedia page
+page = wikipedia.page("Natural_language_processing")
+text = page.content[:1000]  # Limit to 1000 characters
+
+print(text[:300])
+
 # Utilize large corpus for training the bi-gram model
 # retrieve the brown corpus, news category
 # but we limit the number of characters, as to not create a "big" model
-text = " ".join(brown.words(categories="news")[:500])
+# text = " ".join(brown.words(categories="news")[:500])
 
 # Generate the bigram model
 def bigram_probabilities(text):
@@ -21,7 +29,20 @@ def bigram_probabilities(text):
                 for bigram, count in bigram_counts.items()}
     return bigram_probs
 
-print(bigram_probabilities(text))
+wiki_bigram = bigram_probabilities(text)
+
+def predict_next_word(bigram_probs, current_word):
+    # Retrieve the items from the bigram model that matches the first of the bigram with the current word 
+    candidates = { k[1]: v for k, v in bigram_probs.items() if k[0] == current_word }
+    if not candidates:
+        return None # if there are no matches return nothing
+
+    # get the key-value pair with the highest probability
+    return max(candidates, key=candidates.get)
+
+# Predict the next word
+predicted_word = predict_next_word(wiki_bigram, "barks")
+print(f"Predicted next word after the word : {predicted_word}")
 
 # Test bigram model
 
