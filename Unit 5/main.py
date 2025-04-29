@@ -16,8 +16,15 @@ for doc in documents:
 # Tokenize and apply lowercase the documents into words
 tokenized_docs = [doc.lower().split() for doc in documents]
 
+print("Documents:")
+for i, doc in enumerate(tokenized_docs):
+    print(f"Document {i+1}: {doc}")
+
 # Create a set of unique words (vocabulary)
 vocabulary = set(word for doc in tokenized_docs for word in doc)
+
+print("\nVocabulary:")
+print(vocabulary)
 
 # Compute the term frequency for each document
 tf_vectors =  [ compute_tf(doc, vocabulary) for doc in tokenized_docs ]

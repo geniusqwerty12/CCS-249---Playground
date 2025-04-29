@@ -177,3 +177,7 @@ cython_debug/
 .pypirc
 
 */media/
+
+# Ignore these files
+utils/
+samples/
